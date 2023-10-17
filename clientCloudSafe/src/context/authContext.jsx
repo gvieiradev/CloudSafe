@@ -1,5 +1,6 @@
 import {createContext, useState, useContext} from "react";
-import { registerRequest } from "../api/auth.js";
+import { registerRequest, loginRequest } from "../api/auth.js";
+import { useEffect } from "react";
 
 export const AuthContext = createContext();
 export const useAuth = () =>{
@@ -10,6 +11,7 @@ export const useAuth = () =>{
     return context;
 };
 
+// eslint-disable-next-line react/prop-types
 export const AuthProvider = ({children}) =>{
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -27,8 +29,29 @@ export const AuthProvider = ({children}) =>{
         }
     }
 
+    const signin = async (user) => {
+        try {
+            const res = await loginRequest(user);
+            console.log(res)
+        } catch (error) {
+            if(Array.isArray(error.response.data)){
+                return setErrors(error.response.data);
+            }
+            setErrors([error.response.data.message])
+        }
+    }
+
+    useEffect(() => {
+        if(errors.length > 0){
+            const timer = setTimeout(() => {
+                setErrors([])
+            },5000)
+            return () => clearTimeout(timer);
+        }
+    }, [errors])
+
     return(
-        <AuthContext.Provider value={{signup, user, isAuthenticated, errors}}>
+        <AuthContext.Provider value={{signup, signin, user, isAuthenticated, errors}}>
             {children}
         </AuthContext.Provider>
     )

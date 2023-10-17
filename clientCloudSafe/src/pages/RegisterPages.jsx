@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/authContext";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function RegisterPage(){
 
@@ -63,7 +63,9 @@ function RegisterPage(){
                         Register with Google
                     </button>
 
-                    <p className="mt-1 text-xs border-gray-400 py-4">Already have an account?</p>
+                    <p className="mt-1 text-xs border-gray-400 py-4">
+                        Already have an account? <Link className="text-sky-500" to="/login"></Link>
+                    </p>
                 </div>
 
                 <div className="md:block hidden w-1/2">
