@@ -3,6 +3,7 @@ import { registerRequest, loginRequest } from "../api/auth.js";
 import { useEffect } from "react";
 
 export const AuthContext = createContext();
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () =>{
     const context = useContext(AuthContext);
     if(!context){
@@ -16,7 +17,6 @@ export const AuthProvider = ({children}) =>{
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [errors, setErrors] = useState([]);
-
 
     const signup = async (user) =>{
         try {
