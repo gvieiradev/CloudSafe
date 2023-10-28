@@ -4,8 +4,8 @@ function HomePage() {
             <nav className="flex items-center">
                 <img className="w-48" src="https://i.ibb.co/cbWqrcs/Sin-t-tulo-3.png"/>
                 <ul className="flex-1 text-right font-semibold text-base">
+                    <li className="list-none inline-block px-5"><a className="no-underline text-white px-2 hover:text-[#b40df7] cursor-pointer">Home</a></li>
                     <li className="list-none inline-block px-5"><a className="no-underline text-white px-2 hover:text-[#b40df7]" href="https://github.com/gvieiradev">About us</a></li>
-                    <li className="list-none inline-block px-5"><a className="no-underline text-white px-2 hover:text-[#b40df7]" href="#">Features</a></li>
                     <li className="list-none inline-block px-5"><a className="no-underline text-white px-2 hover:text-[#b40df7]" href="https://twitter.com/Gabriel_Dev1">Contact</a></li>
                     <li className="list-none inline-block px-5"><a className="no-underline text-white px-2 hover:text-[#b40df7]" href="/login">Sing in</a></li>
                 </ul>
