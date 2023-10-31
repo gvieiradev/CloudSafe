@@ -1,17 +1,23 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/authContext";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {Icon} from "react-icons-kit";
 import {eyeSlash} from 'react-icons-kit/fa/eyeSlash'
 import {eye} from 'react-icons-kit/fa/eye'
 
 function LoginPage(){
     const {register, handleSubmit, formState:{errors}} = useForm();
-    const {signin, errors:signinError} = useAuth();
+    const {signin, isAuthenticated, errors:signinError} = useAuth();
     const [icon, setIcon] = useState(eyeSlash);
     const [type, setType] = useState("password");
     const [setPassword] = useState("");
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(isAuthenticated) navigate("/uploader");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuthenticated])
 
     const onSubmit = handleSubmit((data => {
         signin(data);

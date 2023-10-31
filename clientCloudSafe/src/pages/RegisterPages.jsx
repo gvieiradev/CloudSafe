@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/authContext";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {Icon} from "react-icons-kit";
 import {eyeSlash} from 'react-icons-kit/fa/eyeSlash'
@@ -18,7 +17,7 @@ function RegisterPage(){
 
 
     useEffect(()=>{
-        if(isAuthenticated) navigate("/tasks");
+        if(isAuthenticated) navigate("/uploader");
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthenticated])
 
@@ -59,7 +58,7 @@ function RegisterPage(){
                             {errors.email && <p className="text-red-500">Email is required</p>}
                             <input className="p-2 mt-2 rounded-xl border w-full" type={type} name="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" {...register("password", {required:true})}/>
                             <span className="absolute mt-4 right-8 -translate-y-1/2" style={{color:"#9CA3AF"}} onClick={handleToggle}>
-                                <Icon class="absolute mr-10" icon={icon} size={18}/>
+                                <Icon className="absolute mr-10" icon={icon} size={18}/>
                             </span>
                             {errors.password && <p className="text-red-500">Password is required</p>}
                             <input className="p-2 mt-2 rounded-xl border w-full" type={type} placeholder="Confirm password" onChange={(e) => setPassword(e.target.value)} {...register("confirmPassword", {required:true})}/>
