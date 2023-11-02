@@ -51,9 +51,9 @@ function RegisterPage(){
                     <form className="flex flex-col gap-4" onSubmit={onSubmit}>
                         <div className="relative">
                             <input className="p-2 mt-3 rounded-xl border w-full" type="text" placeholder="Full name" {...register("name", {required:true})}/>
-                            {errors.name && <p className="text-red-500">Username is required</p>}
+                            {errors.name && <p className="text-red-500">Full Name is required</p>}
                             <input className="p-2 mt-2 rounded-xl border w-full" type="text" placeholder="Username" {...register("username", {required:true})}/>
-                            {errors.username && <p className="text-red-500">Name is required</p>}
+                            {errors.username && <p className="text-red-500">Username is required</p>}
                             <input className="p-2 mt-2 rounded-xl border w-full" type="email" placeholder="Email" {...register("email", {required:true})}/>
                             {errors.email && <p className="text-red-500">Email is required</p>}
                             <input className="p-2 mt-2 rounded-xl border w-full" type={type} name="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" {...register("password", {required:true})}/>

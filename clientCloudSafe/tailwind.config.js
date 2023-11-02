@@ -21,6 +21,9 @@ export default {
         "180px":"180px",
         "50rem":"50rem",
       },
+      fontSize:{
+        "10px":"10px"
+      }
     },
   },
   plugins: [],

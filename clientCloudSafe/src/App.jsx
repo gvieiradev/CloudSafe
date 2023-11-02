@@ -6,6 +6,8 @@ import UploaderPage from "./pages/UploaderPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
+import ConverterPage from "./pages/ConverterPage";
+import FolderPage from "./pages/FolderPage";
 
 function App() {
   return(
@@ -13,15 +15,15 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* RUTAS PUBLICAS */}
-          <Route path="/" element={<HomePage/>} />
-          <Route path="/login" element={<LoginPage/>} />
-          <Route path="/register" element={<RegisterPage/>} />
+          <Route path="/" element={<HomePage/>}/>
+          <Route path="/login" element={<LoginPage/>}/>
+          <Route path="/register" element={<RegisterPage/>}/>
           {/* RUTAS PROTEGIDAS */}
           <Route element={<ProtectedRoute/>}>
             <Route path="/uploader" element={<UploaderPage/>} />
-            <Route path="/add-task" element={<h1>Add task</h1>} />
-            <Route path="/tasks/:id" element={<h1>Task id</h1>} />
-            <Route path="/profile" element={<ProfilePage/>} />
+            <Route path="/converter" element={<ConverterPage/>}/>
+            <Route path="/folder" element={<FolderPage/>}/>
+            <Route path="/profile" element={<ProfilePage/>}/>
           </Route>
         </Routes>
     </BrowserRouter>
