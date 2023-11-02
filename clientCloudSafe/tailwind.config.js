@@ -13,6 +13,7 @@ export default {
       },
       height:{
         "380px": "380px",
+        "395px": "395px",
         "15.8rem":"15.8rem",
         "50rem":"50rem",
       },

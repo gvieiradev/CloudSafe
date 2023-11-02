@@ -1,8 +1,10 @@
 import Cookies from "js-cookie"
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import { useAuth } from "../context/authContext";
 
 function Navbar() {
     const [user, setUser] = useState();
+    const {closeSession} = useAuth();
 
     useEffect(() =>{
         function dataUser (){
@@ -11,7 +13,11 @@ function Navbar() {
             return setUser(user);
         }
     dataUser();
-    }, [])
+    }, []);
+
+    const closeSessions = () =>{
+        closeSession();
+    }
 
     return(
         <nav className="bg-[#1F0061] w-full h-40">
@@ -26,7 +32,7 @@ function Navbar() {
                     <li className="inline float-left px-4 pb-3 hover:border-b-4 rounded-b-sm transition-all"><a href="/converter">Converter</a></li>
                     <li className="inline float-left px-4 pb-3 hover:border-b-4 rounded-b-sm transition-all"><a href="/folder">Folder</a></li>
                     <li className="inline float-left px-4 pb-3 hover:border-b-4 rounded-b-sm transition-all"><a href="/profile">Profile</a></li>
-                    <li className="inline float-left px-4 pb-3 hover:border-b-4 rounded-b-sm transition-all">Settings</li>
+                    <li className="inline float-left px-4 pb-3 hover:border-b-4 rounded-b-sm transition-all"><a onClick={closeSessions}>Logout</a></li>
                 </ul>
                 <img className="w-fit h-20 ml-[600px] mt-3" src="https://i.ibb.co/J5FNfjc/Sin-t-tulo-3.png" alt="Sin-t-tulo-3" border="0"/>
             </div>
