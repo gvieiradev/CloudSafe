@@ -1,12 +1,45 @@
-import Navbar from "../components/navbar"
+import Navbar from "../components/navbar";
+import { uploadRequest } from "../api/upload.js";
+import { useState } from "react";
+
 function UploaderPage() {
+    const [url, setUrl] = useState("");
+    
+    const convertBase = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+
+            fileReader.onload = () =>{
+                resolve(fileReader.result);
+            };
+
+            fileReader.onerror = (error) =>{
+                reject(error);
+            };
+        });
+    };
+
+    const uploadImage = async (event) => {
+        const file = event.target.files[0];
+        const base = await convertBase(file);
+        uploadRequest({image:base})
+            .then((res) => {
+                setUrl(res.data);
+                alert("Image update succesfully")
+            })
+            .catch(console.log())
+    };
+
     return(
     <div>
         <Navbar/>
         <div className="p-3 ">
             {/* BARRA DE INFORMACION Y BOTONES */}
             <div className="inline-flex w-full">
-                <p className="border-2 border-gray-300 rounded-xl p-2 w-full text-xl font-sans font-semibold">field tricket</p>
+                {url && (
+                    <p className="border-2 border-gray-300 rounded-xl p-2 w-full text-xl font-sans font-semibold"><a href={url} rel="noopener noreferrer">{url}</a></p>
+                )}
                 <button type="button" className="ml-10 bg-white hover:bg-gray-100 border-2 border-gray-300 rounded-xl">
                     <img className="p-2" width="48" height="48" src="https://img.icons8.com/pulsar-line/48/228BE6/forward.png"/>
                 </button>
@@ -49,8 +82,8 @@ function UploaderPage() {
             <div className=" bg-gray-100 mt-3 border-2 border-gray-300 rounded-xl pb-1 float-right w-2/3  h-[372px] p-3">
                 <p className="font-sans font-bold uppercase">File uploader</p>
                 <div className="mt-5 border-dashed border-2 border-gray-400 rounded-md h-64 hover:bg-gray-300">
-                    <input className=" outline-none opacity-0 w-full h-[15.8rem] cursor-pointer hover:cursor-pointer" type="file" name="" accept=""/>
-                    <div className=" text-center">
+                    <input onChange={uploadImage} className="outline-none opacity-0 w-full h-[15.8rem] cursor-pointer hover:cursor-pointer" type="file" name="" accept=""/>
+                    <div className="text-center">
                         <h3 className="font-medium uppercase -mt-150px text-gray-400 p-5">DRAG AND DROP FILE</h3>
                     </div>
                 </div>

@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
-import taskRoutes from "./routes/task.routes.js";
+import uploadRoutes from "./routes/upload.routes.js";
 
 const app = express();
 
@@ -17,6 +17,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api", authRoutes);
-app.use("/api", taskRoutes);
+app.use("/api", uploadRoutes);
 
 export default app;

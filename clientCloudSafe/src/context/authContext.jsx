@@ -50,7 +50,7 @@ export const AuthProvider = ({children}) =>{
         } catch (error) {
             setErrors(error)
         }
-    }
+    };
 
     useEffect(() => {
         if(errors.length > 0){
