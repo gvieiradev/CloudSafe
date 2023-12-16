@@ -1,32 +1,34 @@
 import mongoose from "mongoose";
+import { date } from "zod";
 
 const imageSchema = new mongoose.Schema({
     url:{
         type: String,
-        //required: true,
+        required:true
     },
-    name:{
+    format:{
         type:String,
-        //required:true,
+        required:true
     },
     type:{
         type:String,
-        //required:true,
+        required:true
     },
-    description:{
-        type:String,
-        //required:true,
-    },
-    date:{
+    date : {
         type:Date,
-        default:Date.now,
+        default: Date.now,
+    },
+    publicID:{
+        type:String,
+        required:true,
     },
     user:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Types.ObjectId,
         ref:"User",
-        //required:true
-    }
-},{
+        required:true
+    },
+},
+{
     timestamps:true
 });
 

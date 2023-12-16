@@ -1,102 +1,117 @@
-import Navbar from "../components/navbar";
-import { uploadRequest } from "../api/upload.js";
 import { useState } from "react";
+import Navbar from "../components/navbar";
+import { useUpload } from "../context/uploadContext.jsx";
+import Swal from 'sweetalert2'
 
 function UploaderPage() {
-    const [url, setUrl] = useState("");
-    
-    const convertBase = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
+  const { saveImage, image} = useUpload();
+  const [fileInputState, setFileInputState] = useState("");
+  const [previewSource, setPreviewSource] = useState("");
+  const [selectedFile, setSelectedFile] = useState();
 
-            fileReader.onload = () =>{
-                resolve(fileReader.result);
-            };
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+    setSelectedFile(file);
+    setFileInputState(e.target.value);
+  };
 
-            fileReader.onerror = (error) =>{
-                reject(error);
-            };
-        });
+  const handleSubmitFile = async (e) => {
+    e.preventDefault();
+    if (!selectedFile) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(selectedFile);
+    reader.onloadend = () => {
+      uploadImage(reader.result);
     };
-
-    const uploadImage = async (event) => {
-        const file = event.target.files[0];
-        const base = await convertBase(file);
-        uploadRequest({image:base})
-            .then((res) => {
-                setUrl(res.data);
-                alert("Image update succesfully")
-            })
-            .catch(console.log())
+    reader.onerror = () => {
+      console.error("Error");
     };
+  };
 
-    return(
+  const uploadImage = async (data) => {
+    try {
+      saveImage(data);
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "File uploaded successfully",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      setFileInputState("");
+      // setPreviewSource("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
+
+  return (
     <div>
-        <Navbar/>
-        <div className="p-3 ">
-            {/* BARRA DE INFORMACION Y BOTONES */}
-            <div className="inline-flex w-full">
-                {url && (
-                    <p className="border-2 border-gray-300 rounded-xl p-2 w-full text-xl font-sans font-semibold"><a href={url} rel="noopener noreferrer">{url}</a></p>
-                )}
-                <button type="button" className="ml-10 bg-white hover:bg-gray-100 border-2 border-gray-300 rounded-xl">
-                    <img className="p-2" width="48" height="48" src="https://img.icons8.com/pulsar-line/48/228BE6/forward.png"/>
-                </button>
-                <button type="button" className="ml-4 bg-white hover:bg-gray-100 border-2 border-gray-300 rounded-xl">
-                    <img className="p-2" width="48" height="48" src="https://img.icons8.com/pulsar-line/48/FA5252/filled-trash.png"/>
-                </button>
-                <button type="button" className="ml-4 bg-white hover:bg-gray-100 border-2 border-gray-300 rounded-xl">
-                    <img className="p-2" width="48" height="48" src="https://img.icons8.com/pulsar-line/48/12B886/upload-to-ftp.png" alt="upload-to-ftp"/>
-                </button>
-            </div>
-
-            {/* SECCION DATA */}
-            <div className="bg-gray-100 border-2 border-gray-300 w-96 mt-3 rounded-xl pb-1 float-left">
-                <div className="w-1/4 ml-16 inline-grid m-auto mt-12 font-sans font-bold">
-                    <label className="my-5" htmlFor="name">Name:</label> 
-                    <label className="my-4" htmlFor="type">Type:</label>
-                    <label className="my-4" htmlFor="description">Description:</label>
-                    <label className="my-4" htmlFor="date">Date:</label>
-                </div>
-                <div className="w-1/2 inline-grid m-auto font-sans font-semibold">
-                    <input className="my-4 py-2 rounded-md" type="text" name="name"/>
-                    <select className="py-2 rounded-md" name="type" id="">
-                        <option value="image">Image</option>
-                        <option value="audio">Audio</option>
-                        <option value="docs">Docs</option>
-                        <option value="file">File</option>
-                    </select>
-                    <input className="my-4 py-2 rounded-md" type="text" name="description" id=""/>
-                    <input className="mt-2 py-2 rounded-md" type="date" name="date" id="date" min="1990-01-01" max="2023-10-25"/>
-                </div>
-                <button type="button" className="ml-16 mt-8 h-8 mb-5 w-9/12 pr-24 text-gray-900 border-dashed border-2 border-blue-600 font-medium rounded-lg text-sm text-center hover:bg-blue-100">
-                    Add file
-                    <span className="float-left pr-4 ml-20">
-                        <img className="align-top" width="18" height="18" src="https://img.icons8.com/android/48/1A1A1A/plus.png"/>
-                    </span>
-                </button>
-            </div>
-
-            {/* SECCION FILE UPLOADER */}
-            <div className=" bg-gray-100 mt-3 border-2 border-gray-300 rounded-xl pb-1 float-right w-2/3  h-[372px] p-3">
-                <p className="font-sans font-bold uppercase">File uploader</p>
-                <div className="mt-5 border-dashed border-2 border-gray-400 rounded-md h-64 hover:bg-gray-300">
-                    <input onChange={uploadImage} className="outline-none opacity-0 w-full h-[15.8rem] cursor-pointer hover:cursor-pointer" type="file" name="" accept=""/>
-                    <div className="text-center">
-                        <h3 className="font-medium uppercase -mt-150px text-gray-400 p-5">DRAG AND DROP FILE</h3>
-                    </div>
-                </div>
-                <button type="button" className=" mt-3 h-10 w-full pr-80 text-gray-900 border-dashed border-2 border-blue-600 font-medium rounded-lg text-sm text-center hover:bg-blue-100">
-                    Add file
-                    <span className="float-left pr-4 ml-96">
-                        <img className="align-top" width="18" height="18" src="https://img.icons8.com/android/48/1A1A1A/plus.png"/>
-                    </span>
-                </button>
-            </div>
+      <Navbar />
+      <div className="p-3 ">
+        <div className="inline-flex w-full">
+          <p className="border-2 border-gray-300 rounded-xl p-2 w-full text-xl font-sans font-semibold">
+            {image != null && (
+              <a href={image.url} rel="noopener noreferrer">
+                {image.url}
+              </a>
+            )}
+          </p>
+          <button type="button" className="ml-10 bg-white hover:bg-gray-100 border-2 border-gray-300 rounded-xl">
+            <img className="p-2" width="48" height="48" src="https://img.icons8.com/pulsar-line/48/228BE6/forward.png"/>
+          </button>
+          <button type="button" className="ml-4 bg-white hover:bg-gray-100 border-2 border-gray-300 rounded-xl">
+            <img className="p-2" width="48" height="48" src="https://img.icons8.com/pulsar-line/48/FA5252/filled-trash.png"/>
+          </button>
+          <button type="button" className="ml-4 bg-white hover:bg-gray-100 border-2 border-gray-300 rounded-xl">
+            <img className="p-2" width="48" height="48" src="https://img.icons8.com/pulsar-line/48/12B886/upload-to-ftp.png" alt="upload-to-ftp"/>
+          </button>
         </div>
-    </div> 
-    )
+
+        {/* SECCION DATA */}
+        <div className="bg-gray-100 border-2 border-gray-300 w-96 mt-3 rounded-xl pb-1 float-left">
+          <div className="w-1/4 ml-16 inline-grid m-auto mt-12 font-sans font-bold">
+            <label className="my-5" htmlFor="name">Format:</label>
+            <label className="my-4" htmlFor="type">Type:</label>
+            <label className="my-4" htmlFor="date">Date:</label>
+          </div>
+          <div className="w-1/2 inline-grid m-auto font-sans font-semibold">
+            <input className="my-4 py-2 rounded-md" type="text" name="format" value={image && image.format} readOnly/>
+            <input className="my-4 py-2 rounded-md" type="text" name="type" value={image && image.type} readOnly/>
+            <input className="mt-2 py-2 rounded-md" type="text" name="date" value={image && image.createdAt} readOnly/>
+          </div>
+        </div>
+
+        {/* SECCION FILE UPLOADER */}
+        <div className="block bg-gray-100 mt-3 border-2 border-gray-300 rounded-xl pb-1 float-right w-2/3  h-[372px] p-3">
+          <p className="font-sans font-bold uppercase">File uploader</p>
+          <form onSubmit={handleSubmitFile}>
+            <div className="mt-5 border-dashed border-2 border-gray-400 rounded-md h-64 hover:bg-gray-300">
+              <input onChange={handleFileInputChange} value={fileInputState} className="outline-none opacity-0 w-full h-[15.8rem] cursor-pointer hover:cursor-pointer" type="file" name="image" accept="image/*" ></input>
+              <div className="z-0 text-center">
+                {previewSource && (
+                  <img className="ml-80 -mt-60 w-1/5 h-3/6" src={previewSource} alt="chosen"></img>
+                )}
+                {previewSource ? (<h3></h3>) : (<h3 className="font-medium uppercase -mt-150px text-gray-400 p-5">DRAG AND DROP FILE</h3>)}
+              </div>
+            </div>
+            <button type="submit" className="mt-3 h-10 w-full text-gray-900 border-dashed border-2 border-blue-600 font-medium rounded-lg text-base text-center hover:bg-blue-100">
+              Upload
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default UploaderPage
+export default UploaderPage;

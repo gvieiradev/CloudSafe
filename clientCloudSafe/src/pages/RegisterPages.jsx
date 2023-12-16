@@ -22,7 +22,7 @@ function RegisterPage(){
     }, [isAuthenticated])
 
     const onSubmit = handleSubmit(async (values) =>{
-        signup(values);    
+        signup(values);
     });
 
     const handleToggle = () =>{
@@ -63,7 +63,7 @@ function RegisterPage(){
                             {errors.password && <p className="text-red-500">Password is required</p>}
                             <input className="p-2 mt-2 rounded-xl border w-full" type={type} placeholder="Confirm password" onChange={(e) => setPassword(e.target.value)} {...register("confirmPassword", {required:true})}/>
                             <span className="absolute mt-4 right-8 -translate-y-1/2" style={{color:"#9CA3AF"}} onClick={handleToggle}>
-                                
+
                             </span>
                             {errors.confirmPassword && <p className="text-red-500">Confirm password is required</p>}
                         </div>

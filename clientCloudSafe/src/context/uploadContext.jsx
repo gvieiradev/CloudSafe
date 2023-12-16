@@ -1,30 +1,34 @@
-// import { useState } from "react";
-import { createContext, useContext } from "react";
-import { uploadRequest } from "../api/upload";
+//import { useState } from "react";
+import { createContext, useContext, useState } from "react";
+import { uploadRequest} from "../api/upload.js";
 
 const UploadContext = createContext();
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const useUpload = () =>{
     const context = useContext(UploadContext);
-    if(!context) throw new Error("useUpload must be used within a UploadProvider");
+    if(!context){
+        throw new Error("useUpload must be used within a UploadProvider");
+    }
     return context;
 }
 
 // eslint-disable-next-line react/prop-types
-export function UploadProvider({children}){
-    // const [image, setImage] = useState([]);
+export function UploadProvider({children}) {
+    const [image, setImage] = useState("")
 
-    const saveImages = async (image) => {
+    const saveImage = async (data) =>{
         try {
-            const res = await uploadRequest(image);
-            console.log(res.data)
+            const res = await uploadRequest({data});
+            console.log(res)
+            setImage(res.data)
         } catch (error) {
             console.log(error)
         }
     };
 
     return(
-        <UploadContext.Provider value={{saveImages}}>
+        <UploadContext.Provider value={{saveImage, image}}>
             {children}
         </UploadContext.Provider>
     )

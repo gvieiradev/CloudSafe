@@ -12,7 +12,7 @@ export const register = async (req, res) =>{
         const userFound = await User.findOne({email});
         if(userFound)
             return res.status(400).json(["The email already exists"]);
-    
+
         const passwordHash = await bcrypt.hash(password, 10);
         const newUser = new User({name, username, email, password:passwordHash, confirmPassword});
 
@@ -21,6 +21,7 @@ export const register = async (req, res) =>{
         res.cookie("token",token);
         res.json({
             id:UserSaved._id,
+            name:UserSaved.name,
             username:UserSaved.username,
             email:UserSaved.email,
             createdAt:UserSaved.createdAt,
@@ -38,7 +39,7 @@ export const login = async (req, res) =>{
 
     try {
         const userFound = await User.findOne({email});
-        if(!userFound) return res.status(400).json({message:"User not found"}); 
+        if(!userFound) return res.status(400).json({message:"User not found"});
 
         const isMatch = await bcrypt.compare(password, userFound.password);
         if(!isMatch) return res.status(400).json({message: "Incorrect password"})

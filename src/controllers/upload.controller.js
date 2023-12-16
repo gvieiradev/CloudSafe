@@ -1,47 +1,31 @@
 import Image from "../models/image.model.js";
-import {uploadImage} from "../cloudinary/cloudinary.js"
+import {uploadCloudinary} from "../cloudinary/cloudinary.js";
 
-export const createImage = async(req,res) =>{
-    uploadImage(req.body.image)
-        .then((url) =>  res.send(url))
-        .catch((err) => res.status(500).send(err));
+export const uploadImageF = async(req,res) =>{
+    const user = req.user.id;
+    const fileStr = req.body.data;
+
+    try {
+        const uploadResponse = await uploadCloudinary(fileStr)
+
+        const newImage = new Image({url:uploadResponse.secure_url, format:uploadResponse.format, type:uploadResponse.resource_type, publicID:uploadResponse.public_id, user});
+        const savedImage = await newImage.save();
+
+
+        res.json({
+            id: savedImage._id,
+            url:savedImage.url,
+            format:savedImage.format,
+            type:savedImage.type,
+            createdAt:savedImage.createdAt,
+            updatedAt:savedImage.updatedAt,
+            publicID:savedImage.publicID,
+            user:savedImage.user
+        });
+
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({err:"something went wrong"})
+    }
 };
-
-export const saveImage = async(req,res) =>{
-    const {url,name,description,type,date} = req.body
-
-    const newImage = new Image({
-        url,
-        name,
-        description,
-        type,
-        date,
-        user: req.user.id
-    });
-
-    const saveImage = await newImage.save();
-    res.json(saveImage);
-};
-
-// export const getImages = async(req,res) =>{
-//     const tasks = await Image.find({user:req.user.id}).populate("user");
-//     res.json(tasks);
-// };
-
-// export const getImage = async(req,res) =>{
-//     const task = await Image.findById(req.params.id).populate("user");
-//     if(!task) return res.status(400).json({message:"task not found"});
-//     res.json(task);
-// };
-
-// export const updateImage = async(req,res) =>{
-//     const image = await Image.findByIdAndUpdate(req.params.id, req.body, {new:true});
-//     if(!image) return res.status(400).json({message:"task not found"});
-//     res.json(image);
-// };
-
-// export const deleteImages = async(req,res) =>{
-//     const image = await Image.findByIdAndDelete(req.params.id);
-//     if(!image) return res.status(400).json({message:"task not found"});
-//     return res.sendStatus(204);
-// };
