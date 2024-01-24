@@ -1,8 +1,8 @@
-//import { useState } from "react";
 import { createContext, useContext, useState } from "react";
 import { uploadRequest} from "../api/upload.js";
+import Swal from 'sweetalert2'
 
-const UploadContext = createContext();
+export const UploadContext = createContext();
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useUpload = () =>{
@@ -14,15 +14,29 @@ export const useUpload = () =>{
 }
 
 // eslint-disable-next-line react/prop-types
-export function UploadProvider({children}) {
+export const UploadProvider = ({children}) =>{
     const [image, setImage] = useState("")
 
     const saveImage = async (data) =>{
         try {
             const res = await uploadRequest({data});
-            console.log(res)
             setImage(res.data)
+            Swal.fire({
+                position: "top",
+                icon: "success",
+                title: "File uploaded successfully",
+                showConfirmButton: false,
+                timer: 2500
+              });
         } catch (error) {
+            Swal.fire({
+                position: "top",
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+                showConfirmButton: false,
+                timer: 2500
+              });
             console.log(error)
         }
     };

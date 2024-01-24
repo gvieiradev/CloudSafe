@@ -1,19 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/authContext";
+import { UploadProvider } from "./context/uploadContext";
+import { ExplorerProvider } from "./context/explorerContext";
 import RegisterPage from "./pages/RegisterPages";
 import LoginPage from "./pages/LoginPages";
 import UploaderPage from "./pages/UploaderPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
-import ConverterPage from "./pages/ConverterPage";
+import ExplorerPage from "./pages/ExplorerPage";
 import FolderPage from "./pages/FolderPage";
-import { UploadProvider } from "./context/uploadContext";
+
 
 function App() {
   return (
     <AuthProvider>
       <UploadProvider>
+        <ExplorerProvider>
         <BrowserRouter>
           <Routes>
             {/* RUTAS PUBLICAS */}
@@ -23,12 +26,13 @@ function App() {
             {/* RUTAS PROTEGIDAS */}
             <Route element={<ProtectedRoute />}>
               <Route path="/uploader" element={<UploaderPage />} />
-              <Route path="/converter" element={<ConverterPage />} />
+              <Route path="/explorer" element={<ExplorerPage />} />
               <Route path="/folder" element={<FolderPage />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
           </Routes>
         </BrowserRouter>
+        </ExplorerProvider>
       </UploadProvider>
     </AuthProvider>
   );

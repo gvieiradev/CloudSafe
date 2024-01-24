@@ -11,3 +11,8 @@ export const uploadCloudinary = async(data) =>{
   const resultUpload = await cloudinary.uploader.upload(data,{upload_preset:"ml_default",});
   return resultUpload
 };
+
+export const searchCloudinary = async() =>{
+  const result = await cloudinary.search.expression("folder:user-images")
+  return result;
+}

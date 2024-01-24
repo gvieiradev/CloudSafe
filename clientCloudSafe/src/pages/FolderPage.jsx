@@ -4,10 +4,10 @@ function FolderPage() {
     return(
         <div>
             <Navbar/>
-            <div className="p-3">
+            <div className="p-6">
             <div className="bg-gray-100 border-2 border-gray-300 w-96 mt-3 rounded-xl pb-1 float-left">
                 <div className="w-1/4 ml-16 inline-grid m-auto mt-12 font-sans font-bold">
-                    <label className="my-5" htmlFor="name">Name:</label> 
+                    <label className="my-5" htmlFor="name">Name:</label>
                     <label className="mt-6" htmlFor="description">Description:</label>
                     <label className="my-11" htmlFor="date">Date:</label>
                 </div>

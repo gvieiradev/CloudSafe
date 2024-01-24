@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/navbar";
 import { useUpload } from "../context/uploadContext.jsx";
-import Swal from 'sweetalert2'
 
 function UploaderPage() {
   const { saveImage, image} = useUpload();
@@ -32,13 +31,6 @@ function UploaderPage() {
   const uploadImage = async (data) => {
     try {
       saveImage(data);
-      Swal.fire({
-        position: "top",
-        icon: "success",
-        title: "File uploaded successfully",
-        showConfirmButton: false,
-        timer: 2000
-      });
       setFileInputState("");
       // setPreviewSource("");
     } catch (error) {
@@ -59,22 +51,13 @@ function UploaderPage() {
       <Navbar />
       <div className="p-3 ">
         <div className="inline-flex w-full">
-          <p className="border-2 border-gray-300 rounded-xl p-2 w-full text-xl font-sans font-semibold">
+          <p className="border-2 border-gray-300 rounded-xl p-2 w-full h-11 text-xl font-sans font-semibold">
             {image != null && (
               <a href={image.url} rel="noopener noreferrer">
                 {image.url}
               </a>
             )}
           </p>
-          <button type="button" className="ml-10 bg-white hover:bg-gray-100 border-2 border-gray-300 rounded-xl">
-            <img className="p-2" width="48" height="48" src="https://img.icons8.com/pulsar-line/48/228BE6/forward.png"/>
-          </button>
-          <button type="button" className="ml-4 bg-white hover:bg-gray-100 border-2 border-gray-300 rounded-xl">
-            <img className="p-2" width="48" height="48" src="https://img.icons8.com/pulsar-line/48/FA5252/filled-trash.png"/>
-          </button>
-          <button type="button" className="ml-4 bg-white hover:bg-gray-100 border-2 border-gray-300 rounded-xl">
-            <img className="p-2" width="48" height="48" src="https://img.icons8.com/pulsar-line/48/12B886/upload-to-ftp.png" alt="upload-to-ftp"/>
-          </button>
         </div>
 
         {/* SECCION DATA */}

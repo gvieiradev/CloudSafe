@@ -5,6 +5,7 @@ import cors from "cors";
 //import cloudConfig from "./cloudinary/cloudinary.js";
 import authRoutes from "./routes/auth.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
+import explorerRoutes from "./routes/explorer.routes.js";
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.use(cookieParser());
 
 app.use("/api", authRoutes);
 app.use("/api", uploadRoutes);
+app.use("/api", explorerRoutes);
 
 export default app;
