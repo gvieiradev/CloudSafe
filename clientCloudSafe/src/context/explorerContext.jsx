@@ -13,20 +13,20 @@ export const useExplorer = () => {
 }
 
 // eslint-disable-next-line react/prop-types
-export const ExplorerProvider = ({children})=>{
-    const [image, setImage] = useState("");
+export function ExplorerProvider({children}){
+    const [image, setImage] = useState([])
 
-    const selectImages = async () =>{
+    const getImages = async () =>{
         try {
-            const res = await searchImages()
-            setImage(res.data.resources)
+            const res = await searchImages();
+            setImage(res.data)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
     return (
-        <ExplorerContext.Provider value={{selectImages, image}}>
+        <ExplorerContext.Provider value={{image, getImages}}>
             {children}
         </ExplorerContext.Provider>
     )

@@ -15,7 +15,7 @@ export const useUpload = () =>{
 
 // eslint-disable-next-line react/prop-types
 export const UploadProvider = ({children}) =>{
-    const [image, setImage] = useState("")
+    const [image, setImage] = useState("");
 
     const saveImage = async (data) =>{
         try {

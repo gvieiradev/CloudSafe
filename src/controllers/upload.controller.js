@@ -30,9 +30,8 @@ export const uploadImageF = async(req,res) =>{
 
 export const searchUpload = async(req,res)=>{
     try {
-        const search = await searchCloudinary()
-        await search.sort_by("public_id", "desc").max_results(30).execute()
-        .then(results => res.status(200).json(results))
+        const result = await searchCloudinary();
+        res.json(result);
     } catch (error) {
         console.error(error)
     }

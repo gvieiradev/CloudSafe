@@ -13,6 +13,23 @@ export const uploadCloudinary = async(data) =>{
 };
 
 export const searchCloudinary = async() =>{
-  const result = await cloudinary.search.expression("folder:user-images")
-  return result;
+  const result = []
+  const options = {type:"upload", prefix:"User_Avatar", max_result:10}
+
+  await cloudinary.api.resources(options, function(error, res){
+    if (error) console.log(error);
+
+    const resources = res.resources;
+
+    for (const res in resources){
+      result.push({
+        public_id:resources[res]?.public_id,
+        format:resources[res]?.format,
+        secure_url:resources[res]?.secure_url,
+        resource_type: resources[res]?.resource_type,
+        created_at:resources[res]?.created_at,
+        last_modified:resources[res]?.last_modified});
+    }
+  });
+  return result
 }
