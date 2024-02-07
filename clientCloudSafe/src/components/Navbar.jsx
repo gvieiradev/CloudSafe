@@ -30,7 +30,6 @@ function Navbar() {
                 <ul className="list-none text-white mt-[100px] -ml-60 cursor-pointer font-bold text-sm flex">
                     <li className="inline float-left px-4 pb-3 hover:border-b-4 rounded-b-sm transition-all"><a href="/uploader">Uploader</a></li>
                     <li className="inline float-left px-4 pb-3 hover:border-b-4 rounded-b-sm transition-all"><a href="/explorer">Explorer</a></li>
-                    <li className="inline float-left px-4 pb-3 hover:border-b-4 rounded-b-sm transition-all"><a href="/folder">Folder</a></li>
                     <li className="inline float-left px-4 pb-3 hover:border-b-4 rounded-b-sm transition-all"><a href="/profile">Profile</a></li>
                     <li className="inline float-left px-4 pb-3 hover:border-b-4 rounded-b-sm transition-all"><a onClick={closeSessions}>Logout</a></li>
                 </ul>

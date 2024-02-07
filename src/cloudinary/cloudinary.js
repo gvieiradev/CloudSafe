@@ -1,6 +1,5 @@
 import {v2 as cloudinary} from 'cloudinary';
 import { CLOUD_NAME, API_KEY_CLOUDINARY, API_SECRET_KEY_CLOUDINARY } from '../config.js';
-import { INVALID } from 'zod';
 
 export const cloudConfig = cloudinary.config({
   cloud_name: CLOUD_NAME,

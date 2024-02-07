@@ -9,7 +9,6 @@ import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
 import ExplorerPage from "./pages/ExplorerPage";
-import FolderPage from "./pages/FolderPage";
 
 
 function App() {
@@ -27,7 +26,6 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/uploader" element={<UploaderPage />} />
               <Route path="/explorer" element={<ExplorerPage />} />
-              <Route path="/folder" element={<FolderPage />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
           </Routes>

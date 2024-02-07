@@ -2,7 +2,6 @@ import { Router } from "express";
 import { authRequired } from "../middlewares/validateToken.js";
 import { uploadImageF} from "../controllers/upload.controller.js";
 import {validateSchema} from "../middlewares/validator.middlewares.js";
-import { createImageSchema } from "../schemas/image.schemas.js";
 
 const router = Router();
 
