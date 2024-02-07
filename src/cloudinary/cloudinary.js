@@ -1,5 +1,6 @@
 import {v2 as cloudinary} from 'cloudinary';
 import { CLOUD_NAME, API_KEY_CLOUDINARY, API_SECRET_KEY_CLOUDINARY } from '../config.js';
+import { INVALID } from 'zod';
 
 export const cloudConfig = cloudinary.config({
   cloud_name: CLOUD_NAME,
@@ -32,4 +33,9 @@ export const searchCloudinary = async() =>{
     }
   });
   return result
+};
+
+export const deleteCloudinary = async(id) =>{
+  const resultDelete = await cloudinary.uploader.destroy("User_Avatar/"+id, {invalidate:true,resource_type:"image"});
+  return resultDelete;
 }

@@ -27,7 +27,7 @@ export const UploadProvider = ({children}) =>{
                 title: "File uploaded successfully",
                 showConfirmButton: false,
                 timer: 2500
-              });
+            });
         } catch (error) {
             Swal.fire({
                 position: "top",
@@ -36,7 +36,7 @@ export const UploadProvider = ({children}) =>{
                 text: "Something went wrong!",
                 showConfirmButton: false,
                 timer: 2500
-              });
+            });
             console.log(error)
         }
     };

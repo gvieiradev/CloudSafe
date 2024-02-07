@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import { searchImages } from "../api/explorer.js";
+import { searchImages, removeImages } from "../api/explorer.js";
+import Swal from 'sweetalert2'
 
 export const ExplorerContext = createContext();
 
@@ -25,8 +26,42 @@ export function ExplorerProvider({children}){
         }
     }
 
+    const deleteImages = async(id)=>{
+        try {
+            const res = await removeImages(id)
+            if(res.data.result === "ok"){
+                Swal.fire({
+                    position: "top",
+                    icon: "success",
+                    title: "File delete successfully",
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+            }else{
+                Swal.fire({
+                    position: "top",
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                position: "top",
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+                showConfirmButton: false,
+                timer: 2500
+            });
+            console.log(error)
+        }
+    }
+
     return (
-        <ExplorerContext.Provider value={{image, getImages}}>
+        <ExplorerContext.Provider value={{image, getImages, deleteImages}}>
             {children}
         </ExplorerContext.Provider>
     )

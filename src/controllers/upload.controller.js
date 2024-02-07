@@ -1,5 +1,5 @@
 import Image from "../models/image.model.js";
-import {uploadCloudinary,searchCloudinary} from "../cloudinary/cloudinary.js";
+import {uploadCloudinary,searchCloudinary,deleteCloudinary} from "../cloudinary/cloudinary.js";
 
 export const uploadImageF = async(req,res) =>{
     const user = req.user.id;
@@ -34,5 +34,14 @@ export const searchUpload = async(req,res)=>{
         res.json(result);
     } catch (error) {
         console.error(error)
+    }
+};
+
+export const removeCloudinary = async(req, res)=>{
+    try {
+        const r = await deleteCloudinary(req.params.id)
+        res.json(r)
+    } catch (error) {
+        console.log(error)
     }
 }
