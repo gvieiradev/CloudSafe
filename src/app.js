@@ -5,6 +5,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
 import explorerRoutes from "./routes/explorer.routes.js";
+import profileRoutes from "./routes/profile.routes.js";
 
 const app = express();
 
@@ -19,5 +20,6 @@ app.use(cookieParser());
 app.use("/api", authRoutes);
 app.use("/api", uploadRoutes);
 app.use("/api", explorerRoutes);
+app.use("/api", profileRoutes);
 
 export default app;

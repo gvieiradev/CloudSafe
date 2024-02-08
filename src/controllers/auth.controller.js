@@ -10,8 +10,7 @@ export const register = async (req, res) =>{
 
     try {
         const userFound = await User.findOne({email});
-        if(userFound)
-            return res.status(400).json(["The email already exists"]);
+        if(userFound) return res.status(400).json(["The email already exists"]);
 
         const passwordHash = await bcrypt.hash(password, 10);
         const newUser = new User({name, username, email, password:passwordHash, confirmPassword});
@@ -65,20 +64,6 @@ export const logout = async (req, res) =>{
     res.cookie("token", "", {expires: new Date(0)});
     res.cookie("username","",{expires: new Date(0)})
     return res.sendStatus(200);
-};
-
-export const profile = async (req, res) =>{
-    const userFound = await User.findById(req.user.id);
-
-    if(!userFound) return res.status(400).json({message: "User not found"});
-
-    return res.json({
-        id:userFound._id,
-        username:userFound.username,
-        email:userFound.email,
-        createdAt:userFound.createdAt,
-        updateAt:userFound.updatedAt,
-    });
 };
 
 export const verifyToken = async (req, res) => {

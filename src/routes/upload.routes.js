@@ -5,7 +5,7 @@ import {validateSchema} from "../middlewares/validator.middlewares.js";
 
 const router = Router();
 
-router.post("/uploader",authRequired, uploadImageF);
+router.post("/uploader", authRequired, uploadImageF);
 
 // router.get("/task", authRequired, getTasks);
 
